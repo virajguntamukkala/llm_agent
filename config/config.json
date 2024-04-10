@@ -1,0 +1,40 @@
+
+{
+  "agent": {
+    "name": "agent.ResearchAssistantAgent",
+    "verbose": false,
+    "llm": {
+      "model": "gpt-3.5-turbo",
+      "temperature": 0
+    },
+    "tools": [
+      {
+        "name": "ArxivRetrievalTool",
+        "module": "arxiv_tool",
+        "config": {
+        }
+      },
+      {
+        "name": "BibtexGenerationTool",
+        "module": "bibtex_tool",
+        "config": {
+        }
+      }
+    ],
+    "prompts": {
+      "system": "Hello, I'm a research assistant powered by an LLM. How can I help you with your research today?"
+    }
+  },
+  "api": {
+    "url": "ws://localhost:8000/ws/chat",
+    "reconnect_delay": 10
+  },
+  "app": {
+    "title": "Research Assistant AI"
+  },
+  "logging": {
+    "level": "info",
+    "output": "logs"
+  }
+}
+
