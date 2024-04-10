@@ -1,0 +1,13 @@
+aiohttp==3.9.3
+arxiv==2.1.0
+arxiv2bib==1.0.8
+fastapi==0.110.1
+feedparser==6.0.10
+langchain==0.1.15
+langchain_core==0.1.41
+langchain_openai==0.1.2
+loguru==0.7.2
+setuptools==58.1.0
+streamlit==1.33.0
+uvicorn==0.29.0
+websockets==12.0

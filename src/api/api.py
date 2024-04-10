@@ -69,7 +69,7 @@ if __name__ == "__main__":
     parser.add_argument('--config', type=str, default='config/config.json', help='Path to the config.json file')
     args = parser.parse_args()
     parse_config(config=args.config)
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8090)
 
 
 # # api.py
