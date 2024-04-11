@@ -39,8 +39,12 @@ class ResearchAssistantAgent:
 
 
     async def ainvoke(self, query, chat_history):
-        return await self.agent_executor.ainvoke({"input": query, "chat_history": chat_history})
-    
+        try:
+            return await self.agent_executor.ainvoke({"input": query, "chat_history": chat_history})
+        except Exception as e:
+            raise RuntimeError(f"Error invoking agent: {str(e)}")
+  
+
     async def astream(self, query, chat_history):
         async for response in self.agent_executor.astream({"input": query, "chat_history": chat_history}):
             if isinstance(response, str):

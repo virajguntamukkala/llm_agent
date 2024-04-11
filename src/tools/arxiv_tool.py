@@ -41,7 +41,6 @@ class ArxivRetrievalTool(BaseTool):
             url = f"http://export.arxiv.org/api/query?search_query={query}&max_results={num_results}&sortBy=relevance"
             async with session.get(url) as response:
                 data = await response.text()
-
                 results = self._parse_arxiv_response(data)
 
         return results

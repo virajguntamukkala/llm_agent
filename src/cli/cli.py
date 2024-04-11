@@ -1,15 +1,21 @@
 import asyncio
 import argparse
-import sys
 import os
 import json
 import importlib
 from loguru import logger
 from langchain_core.messages import AIMessage, HumanMessage
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from src.agent.agent import ResearchAssistantAgent
-
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 async def main():
     parser = argparse.ArgumentParser(description='Research Assistant CLI')
@@ -34,13 +40,18 @@ async def main():
     chat_history = []
     while True:
         try:
-            query = input("Enter your query (or type 'exit' or 'quit' to exit): ")
+            query = input(bcolors.OKBLUE + "Enter your query (or type 'exit' or 'quit' to exit): " +  bcolors.ENDC)
             logger.info("Query: {}", query)
             if query.lower() in ["exit", "quit"]:
                 logger.info("Exiting the CLI")
                 print("Goodbye!")
                 break
 
+            if not query:
+                print(bcolors.WARNING + "Please enter a query." + bcolors.ENDC)
+                continue
+            
+            print(bcolors.OKBLUE + "Agent: ", end="" +  bcolors.ENDC) 
             result = await agent_executor.ainvoke(query, chat_history)
             print()
             logger.info("Agent response: {}", result['output'])

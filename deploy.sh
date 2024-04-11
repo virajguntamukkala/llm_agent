@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Script to create and push docker image to GCP Artifact Registry
 # Set variables
 IMAGE_NAME="chat-api"  # Name of your Docker image
 TAG="latest"           # Tag for your Docker image

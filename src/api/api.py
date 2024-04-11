@@ -2,10 +2,10 @@ import json
 import importlib
 import os
 import argparse
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from loguru import logger
 import uvicorn
-from contextlib import asynccontextmanager
 
 agent = None
 

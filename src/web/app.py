@@ -1,11 +1,11 @@
 import asyncio
 import json
 import os
+import time
+import argparse
 import websockets
 import streamlit as st
-import time
 from loguru import logger
-import argparse
 
 
 def response_generator(response):
@@ -19,17 +19,14 @@ async def chat_with_agent(query, chat_history, websocket):
     return chat_history + [{"role": "human", "content": query}, {"role": "ai", "content": response}]
 
 async def main():
-    # Parse command-line arguments
     parser = argparse.ArgumentParser(description='Streamlit App')
     parser.add_argument('--config', type=str, default='config/config.json', help='Path to the config.json file')
     args = parser.parse_args()
 
-    # Load configuration from the specified file
     config_path = args.config
     with open(config_path) as f:
         config = json.load(f)
 
-    # Configure logging
     log_file = os.path.join(config['logging']['output'], 'app.log')
     os.makedirs(os.path.dirname(log_file), exist_ok=True)
     logger.remove()
@@ -49,16 +46,16 @@ async def main():
                     for idx, message in enumerate(st.session_state.chat_history):
                         with st.chat_message(message["role"]):
                             st.markdown(message["content"])
+                    with st.chat_message("human"):
+                        st.markdown(user_input)
                     with st.spinner("Waiting for response..."):
                         st.session_state.chat_history = await chat_with_agent(user_input, st.session_state.chat_history, websocket)
-                    with st.chat_message(st.session_state.chat_history[-2]["role"]):
-                        st.markdown(st.session_state.chat_history[-2]["content"])
                     with st.chat_message(st.session_state.chat_history[-1]["role"]):
                         st.write_stream(response_generator(st.session_state.chat_history[-1]["content"]))
 
                     user_input = None
                 else:
-                    await asyncio.sleep(0.1)  # Sleep briefly to avoid busy-waiting
+                    await asyncio.sleep(0.1)
     except websockets.exceptions.ConnectionClosed:
         logger.error("WebSocket connection closed. Reconnecting...")
         await asyncio.sleep(config['api']['reconnect_delay'])
