@@ -26,7 +26,6 @@ class BibtexGenerationTool(BaseTool):
 
     async def _arun(self, arxiv_id_nums: list[str], run_manager: Optional[AsyncCallbackManagerForToolRun] = None) -> str:
         """Use the tool asynchronously."""
-        print('await')
         bibtex_entries = await self._get_bibtex_entries(arxiv_id_nums)
         return '\n\n'.join(str(v.bibtex()) for v in bibtex_entries)
 

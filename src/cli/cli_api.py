@@ -11,7 +11,6 @@ from langchain_core.messages import AIMessage, HumanMessage
 async def chat_with_agent(config):
     url = config['api']['url']
     chat_history = []
-
     while True:
         try:
             async with websockets.connect(url) as websocket:
@@ -20,7 +19,7 @@ async def chat_with_agent(config):
                     if query.lower() in ["exit", "quit"]:
                         logger.info("Exiting the CLI")
                         print("Goodbye!")
-                        break
+                        return
 
                     chat_history_json = [
                         {"role": "human", "content": message.content}
@@ -67,42 +66,3 @@ if __name__ == "__main__":
         logger.critical("Unhandled exception: {}", e)
         print(f"An unhandled exception occurred: {e}")
         sys.exit(1)
-
-
-# import asyncio
-# import json
-# import websockets
-# from langchain_core.messages import AIMessage, HumanMessage
-
-# async def chat_with_agent():
-#     url = 'ws://localhost:8000/ws/chat'
-#     chat_history = []
-
-#     while True:
-#         try:
-#             async with websockets.connect(url) as websocket:
-#                 while True:
-#                     query = input("Enter your query (or type 'exit' to quit): ")
-#                     if query.lower() == 'exit':
-#                         return
-
-#                     chat_history_json = [
-#                         {"role": "human", "content": message.content}
-#                         if isinstance(message, HumanMessage)
-#                         else {"role": "ai", "content": message.content}
-#                         for message in chat_history
-#                     ]
-
-#                     await websocket.send(json.dumps({"input": query, "chat_history": chat_history_json}))
-#                     response = await websocket.recv()
-#                     print(f"Agent: {response}")
-
-#                     chat_history.append(HumanMessage(content=query))
-#                     chat_history.append(AIMessage(content=response))
-
-#         except websockets.exceptions.ConnectionClosed:
-#             print("WebSocket connection closed. Reconnecting...")
-#             await asyncio.sleep(5)  # Wait for 5 seconds before reconnecting
-
-# if __name__ == "__main__":
-#     asyncio.run(chat_with_agent())
