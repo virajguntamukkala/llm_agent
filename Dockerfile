@@ -22,8 +22,8 @@ EXPOSE 8080
 # Set the PYTHONPATH for Docker
 ENV PYTHONPATH=/app
 ENV LANGCHAIN_TRACING_V2="true"
-ENV LANGCHAIN_API_KEY="ls__726e5e1bc51043abab63525d972e3fd9"
-ENV OPENAI_API_KEY="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"
+ENV LANGCHAIN_API_KEY=""
+ENV OPENAI_API_KEY=""
 
 # Specify the command to run on container start
 CMD ["uvicorn", "src.api.api:app", "--host", "0.0.0.0", "--port", "8080"]
