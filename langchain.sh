@@ -1,3 +1,1 @@
-export LANGCHAIN_TRACING_V2="true"
-export LANGCHAIN_API_KEY="ls__726e5e1bc51043abab63525d972e3fd9"
-export OPENAI_API_KEY="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"
+
